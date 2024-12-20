@@ -5,6 +5,7 @@ import { fetchBankBalances } from '../config/Query.ts';
 
 
 
+
 export default function ConnectWalletButton() {
   const [address, setAddress] = useState<string>('');
   const [balance, setBalance] = useState<string | null>(null);
@@ -12,13 +13,14 @@ export default function ConnectWalletButton() {
 
   const connectWallet = async () => {
     try {
-      const isTelegramWebView = !!window.Telegram?.WebApp?.initData;
+      // Check if Telegram WebView is present
+      const isTelegramWebView = typeof window !== 'undefined' && window.Telegram?.WebApp?.initData;
 
       if (isTelegramWebView) {
         // Use Keplr deep link for Telegram
         const keplrDeepLink = 'keplrwallet://walletconnect';
         window.open(keplrDeepLink, '_self');
-      } else if (window.keplr) {
+      } else if (typeof window !== 'undefined' && window.keplr) {
         // Use Keplr browser extension for non-Telegram environments
         const addresses = await getAddresses(Wallet.Keplr);
         setAddress(addresses[0]);
@@ -62,7 +64,7 @@ export default function ConnectWalletButton() {
     <div className="flex flex-col gap-[1.5em] justify-center center-align">
       {balance !== null && (
         <p className="font-semibold text-[2em] text-center">{balance} INJ</p>
-      )} 
+      )}
       <button
         onClick={connectWallet}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -70,7 +72,7 @@ export default function ConnectWalletButton() {
         Connect Wallet
       </button>
       {address && <p className="text-gray-700">Address: {address}</p>}
-      {error && <p className="text-white">Error</p>}
+      {error && <p className="text-white">{error}</p>}
     </div>
   );
 }

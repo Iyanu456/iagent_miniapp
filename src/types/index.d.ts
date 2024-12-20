@@ -1,8 +1,7 @@
 // src/global.d.ts
-export {};
 
 declare global {
-  interface Window {
+interface Window {
     Telegram?: {
       WebApp?: {
         initData?: string;
@@ -11,3 +10,7 @@ declare global {
     keplr?: any; // Keplr does not have official typings, so we use `any` here
   }
 }
+
+
+
+export {};
