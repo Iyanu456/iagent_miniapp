@@ -1,3 +1,4 @@
+// src/global.d.ts
 export {};
 
 declare global {
@@ -5,14 +6,8 @@ declare global {
     Telegram?: {
       WebApp?: {
         initData?: string;
-        initDataUnsafe?: any;
-        close?: () => void;
-        expand?: () => void;
-        isExpanded?: boolean;
-        onEvent?: (eventType: string, callback: () => void) => void;
-        offEvent?: (eventType: string, callback: () => void) => void;
-        sendData?: (data: string) => void;
       };
     };
+    keplr?: any; // Keplr does not have official typings, so we use `any` here
   }
 }
