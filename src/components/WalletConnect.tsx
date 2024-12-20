@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Wallet } from '@injectivelabs/wallet-ts';
 import { getAddresses } from '../config/walletConnection.ts';
 import { fetchBankBalances } from '../config/Query.ts'; // Import the fetchBankBalances function

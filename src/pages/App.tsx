@@ -1,7 +1,6 @@
 // App.jsx
 
 import ConnectWalletButton from '../components/WalletConnect.js';
-import WalletGenerator from '../components/WalletGenerator.js';
 
 function App() {
 

@@ -1,5 +1,5 @@
 // filename: Wallet.ts
-import { WalletStrategy, Wallet } from '@injectivelabs/wallet-ts'
+import { WalletStrategy } from '@injectivelabs/wallet-ts'
 import { ChainId, EthereumChainId } from '@injectivelabs/ts-types'
 
 const CHAIN_ID = ChainId.Testnet // The Injective Chain chainId
