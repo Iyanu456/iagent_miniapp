@@ -87,7 +87,7 @@ function RootComponent() {
         <SplashScreen />
       ) : (
         <div className='reveal'>
-          <div className="position fixed min-h-[4em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2" ></div>
+          <div className="position fixed min-h-[3.6em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2" ></div>
         {<div>{renderTabContent()}</div>}
           
         
