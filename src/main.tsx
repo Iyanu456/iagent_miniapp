@@ -11,11 +11,30 @@ import ProfileTab from './tabs/ProfileTab.tsx';
 import TabComponent from './components/TabComponent.tsx';
 import { fetchBankBalances } from './config/Query.ts';
 
+
+function SplashScreen() {
+  return (
+    <div className='splash w-[100vw] grid place-items-center'>
+      <h1 className='text-[2.2em] font-semibold'>Jarvis</h1>
+    </div>
+  );
+}
+
 function RootComponent() {
   const [activeTab, setActiveTab] = useState<string | null>('wallet');
    //const [address, setAddress] = useState<string>('');
    const [balance, setBalance] = useState<string | null>(null);
    const [error, setError] = useState<string | null>(null);
+   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
+
+   useEffect(() => {
+    // Simulate loading or initialization
+    const timer = setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 2500); // Hide splash screen after 3 seconds
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
+  }, []);
  
  
    useEffect(() => {
@@ -64,13 +83,18 @@ function RootComponent() {
 
   return (
     <StrictMode>
-      <div className="">
+      {isSplashVisible ? (
+        <SplashScreen />
+      ) : (
+        <div className='reveal'>
         {<div>{renderTabContent()}</div>}
           
         
           <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
       
       </div>
+      )}
+      
     </StrictMode>
   );
 }

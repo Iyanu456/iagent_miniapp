@@ -100,3 +100,34 @@ button.active {
 .tab-content {
   padding: 20px;
 }
+
+
+/* In your CSS file */
+.splash {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.reveal {
+  animation: fadein 1s ease-in-out forwards;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    
+  }
+}

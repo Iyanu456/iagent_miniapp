@@ -11,7 +11,8 @@ export default function WalletTab(props: any) {
 
   return (
     <main className='w-[100vw] grid place-items-center'>
-         <div className="flex flex-col gap-[1.5em] justify-center center-align">
+         <div className="flex flex-col gap-[0.6em] text-center justify-center center-align">
+          <p className="text-gray-400">Balance:</p>
       {props.balance !== null && (
         <p className="font-semibold text-[2.2em] text-center">{props.balance} INJ</p>
       )}
