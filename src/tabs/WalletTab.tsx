@@ -10,7 +10,7 @@ export default function WalletTab(props: any) {
   
 
   return (
-    <main className='w-[100vw] grid place-items-center'>
+    <main className='w-[100vw] grid'>
          <div className="flex flex-col gap-[0.6em] text-center justify-center center-align">
           <p className="text-gray-400">Balance:</p>
       {props.balance !== null && (
