@@ -31,7 +31,7 @@ function RootComponent() {
     // Simulate loading or initialization
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 3200); // Hide splash screen after 3 seconds
+    }, 2000); // Hide splash screen after 3 seconds
 
     return () => clearTimeout(timer); // Cleanup timer on unmount
   }, []);
