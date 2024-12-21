@@ -14,7 +14,7 @@ import { fetchBankBalances } from './config/Query.ts';
 
 function SplashScreen() {
   return (
-    <div className='splash w-[100vw] grid place-items-center'>
+    <div className=' w-[100vw] grid place-items-center'>
       <h1 className='text-[2.2em] font-semibold'>Jarvis</h1>
     </div>
   );
@@ -31,7 +31,7 @@ function RootComponent() {
     // Simulate loading or initialization
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 2500); // Hide splash screen after 3 seconds
+    }, 3200); // Hide splash screen after 3 seconds
 
     return () => clearTimeout(timer); // Cleanup timer on unmount
   }, []);
