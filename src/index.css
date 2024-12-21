@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,6 +16,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  outline: none;
 }
 
 a {
@@ -50,13 +52,8 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -69,4 +66,38 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.tab-container {
+  width: 100%;
+  padding: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 1em;
+  border-bottom: 2px solid #ddd;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+
+button.active {
+  background-color: #007BFF;
+}
+
+.bg-active {
+  background-color: #007BFF;
+}
+
+.tab-content {
+  padding: 20px;
 }
