@@ -4,7 +4,7 @@ import { House, ArrowLeftRight, Settings } from "lucide-react";
 const TabComponent = () => {
   const [activeTab, setActiveTab] = useState<string | null>("home");
 
-  const renderTabContent = () => {
+  /*const renderTabContent = () => {
     switch (activeTab) {
       case "home":
         return <div>Welcome to your Dashboard</div>;
@@ -15,7 +15,7 @@ const TabComponent = () => {
       default:
         return <div>Select a tab to view content</div>;
     }
-  };
+  };*/
 
   return (
     <div className="w-full grid place-items-center mx-auto fixed bottom-0 top-auto left-[auto] right-auto">
