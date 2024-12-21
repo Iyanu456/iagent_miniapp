@@ -19,7 +19,7 @@ const TabComponent = () => {
 
   return (
     <div className="w-full grid place-items-center mx-auto fixed bottom-0 top-auto left-[auto] right-auto">
-      <div className="bg-[#333333] max-sm:w-[100%] shadow-md md:mb-[2em] max-sm:grid grid-cols-3 md:flex gap-4 px-5 py-2 md:rounded-xl">
+      <div className="bg-[#333333] max-sm:w-[100%] shadow-md md:mb-[6em] max-sm:grid grid-cols-3 md:flex gap-4 px-5 py-2 md:rounded-xl">
         <button
           onClick={() => setActiveTab("home")}
           className={`grid gap-2 place-items-center py-3 px-4`}
