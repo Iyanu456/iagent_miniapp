@@ -31,7 +31,7 @@ function RootComponent() {
     // Simulate loading or initialization
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 2000); // Hide splash screen after 3 seconds
+    }, 1500); // Hide splash screen after 3 seconds
 
     return () => clearTimeout(timer); // Cleanup timer on unmount
   }, []);
@@ -87,6 +87,7 @@ function RootComponent() {
         <SplashScreen />
       ) : (
         <div className='reveal'>
+          <div className="position fixed min-h-[4em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2" ></div>
         {<div>{renderTabContent()}</div>}
           
         
