@@ -23,7 +23,7 @@ function SplashScreen() {
 function RootComponent() {
   const [activeTab, setActiveTab] = useState<string | null>('wallet');
    //const [address, setAddress] = useState<string>('');
-   const [balance, setBalance] = useState<string | null>(null);
+   const [balance, setBalance] = useState<string>('0.0000');
    const [error, setError] = useState<string | null>(null);
    const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
 

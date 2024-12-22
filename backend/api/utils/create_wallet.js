@@ -1,12 +1,11 @@
 const { Wallet } = require('ethers');
 const { getInjectiveAddress } = require('@injectivelabs/sdk-ts');
 
-// Generate a new wallet
 const createInjectiveWallet = async () => {
   const wallet = Wallet.createRandom();
-  const evmAddress = wallet.address; // Ethereum-style address
+  const evmAddress = wallet.address;
 
-  // Await the Injective address conversion
+  // Ensure Injective address generation is awaited
   const injectiveAddress = await getInjectiveAddress(evmAddress);
 
   console.log('Injective Wallet Address (Bech32):', injectiveAddress);
@@ -14,11 +13,12 @@ const createInjectiveWallet = async () => {
   console.log('Private Key:', wallet.privateKey);
 
   return {
-    injectiveAddress,
-    evmAddress,
-    privateKey: wallet.privateKey,
+      injectiveAddress,
+      evmAddress,
+      privateKey: wallet.privateKey,
   };
 };
+
 
 
 module.exports = { createInjectiveWallet };
