@@ -1,17 +1,14 @@
-import { StrictMode, useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import WalletTab from './tabs/WalletTab.tsx';
-import ActivityTab from './tabs/ActivityTab.tsx';
-import ProfileTab from './tabs/ProfileTab.tsx';
-import TabComponent from './components/TabComponent.tsx';
-import { fetchBankBalances } from './config/Query.ts';
-import useAxios from './hooks/useAxios.ts';
-
+import { StrictMode, useState, useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import WalletTab from "./tabs/WalletTab.tsx";
+import ActivityTab from "./tabs/ActivityTab.tsx";
+import ProfileTab from "./tabs/ProfileTab.tsx";
+import TabComponent from "./components/TabComponent.tsx";
+import useAxios from "./hooks/useAxios.ts";
+import fetchBalance from "./config/FetchBalance.ts";
 
 const baseUrl = import.meta.env.VITE_BACKEND_API_URL;
-
-
 
 interface Wallet {
   wallet_name: string;
@@ -22,118 +19,112 @@ interface Wallet {
 
 interface JarvisUserData {
   userId: string;
+  currentWallet: string;
   wallets: Wallet[];
 }
 
-
 function SplashScreen() {
   return (
-    <div className=' w-[100vw] grid place-items-center'>
-      <h1 className='text-[2.2em] font-semibold'>Jarvis</h1>
+    <div className=" w-[100vw] h-[100vh] grid place-items-center">
+      <h1 className="text-[2.2em] font-semibold">Jarvis</h1>
     </div>
   );
 }
 
 function RootComponent() {
-  const [activeTab, setActiveTab] = useState<string | null>('wallet');
-   const [balance, setBalance] = useState<string>('0.0000');
-   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
-   const { data, setData, error, sendRequest } = useAxios();
+  const [activeTab, setActiveTab] = useState<string | null>("wallet");
+  const [balance, setBalance] = useState<string>("0.0000");
+  const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
+  const { error, sendRequest } = useAxios();
+  const [userData, setUserData] = useState<JarvisUserData | null>(null);
 
-
-
-
-   useEffect(() => {
+  useEffect(() => {
     const initializeUserData = async () => {
-      // Retrieve user data from localStorage
-      const savedUserData = localStorage.getItem('jarvisUserData');
+      const savedUserData = localStorage.getItem("jarvisUserData");
+      console.log("retrieved data: ", savedUserData);
 
       if (savedUserData) {
-        // User data exists in localStorage
-        setData(JSON.parse(savedUserData));
+        const parsedUserData = JSON.parse(savedUserData);
+        setUserData(parsedUserData);
       } else {
         // User data doesn't exist; create the first wallet
-        const response = await sendRequest({
-          url: `${baseUrl}/api/wallet`, // Replace with your create wallet endpoint
-          method: 'POST',
-        });
+        try {
+          const response = await sendRequest({
+            url: `${baseUrl}/api/wallet`,
+            method: "POST",
+          });
 
-        if (response && response.userId && response.inj_address) {
-          const newUserData: JarvisUserData = {
-            userId: response.userId,
-            wallets: [
-              { 
-                injective_address: response.injective_address,
-                evm_address: response.evm_address,
-                wallet_name: response.wallet_name,
-                balance: response.balance // 100,000,000,000,000,000
-               }],
-          };
+          if (response.ok) {
+            const newUserData: JarvisUserData = {
+              userId: response.userId,
+              currentWallet: response.injective_address,
+              wallets: [
+                {
+                  injective_address: response.injective_address,
+                  evm_address: response.evm_address,
+                  wallet_name: response.wallet_name,
+                  balance: response.balance,
+                },
+              ],
+            };
 
-          // Save user data to localStorage
-          localStorage.setItem('jarvisUserData', JSON.stringify(newUserData));
+            // Save user data to localStorage
+            localStorage.setItem("jarvisUserData", JSON.stringify(newUserData));
+            setUserData(newUserData);
+          }
+        } catch (error) {
+          console.error("Error fetching wallet data:", error);
         }
       }
     };
 
     initializeUserData();
-  }, [sendRequest]);
-
-
-   useEffect(() => {
-    // Simulate loading or initialization
-    const timer = setTimeout(() => {
-      setIsSplashVisible(false);
-    }, 1500); // Hide splash screen after 3 seconds
-
-    return () => clearTimeout(timer); // Cleanup timer on unmount
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSplashVisible(false);
+    }, 1500);
 
-  
- 
- 
-   useEffect(() => {
- 
-     // Fetch balance for the connected address
-   const fetchBalance = async (injectiveAddress: string): Promise<string> => {
-     try {
-       const response = await fetchBankBalances(injectiveAddress);
-       console.log(response); // Log the response to check the structure
- 
-       // Assuming the response contains 'balances' field with 'denom' and 'amount'
-       const balanceData = response.balances[0];
-       const amount = balanceData?.amount || '0';
- 
-       // Convert balance to a human-readable format (adjust based on smallest unit)
-       const formattedBalance = parseFloat(amount) / 1e18;
- 
-       // Format the balance to 4 decimal places
-       console.log('request succesful');
-       setBalance(formattedBalance.toFixed(3));
-       return formattedBalance.toFixed(3);  
-     } catch (error) {
-       console.error('Error fetching balance:', error);
-       setBalance('0.0000');
-       return '0.0000'; // Default value in case of error
-     }
-   };
- 
-     fetchBalance(data.inj_address);
-   },[])
+    return () => clearTimeout(timer);
+  }, []);
 
-   /*const clearUserData = () => {
-    localStorage.removeItem('jarvisUserData'); // Remove stored user ID
-  };*/
+  useEffect(() => {
+    const fetchUserBalance = async () => {
+      if (userData && userData.currentWallet) {
+        const fetchedBalance = await fetchBalance(userData.currentWallet);
+        setBalance(fetchedBalance);
+      }
+    };
 
+    fetchUserBalance();
+  }, [userData]);
+
+  const getWalletByAddress = (address: string | null) => {
+    if (!address) return undefined;
+    const wallet = userData?.wallets.find(
+      (wallet) => wallet.injective_address === address
+    );
+
+    return wallet;
+  };
   const renderTabContent = () => {
+    const currentWallet = userData?.currentWallet || null; // Fallback to null if undefined
+    const wallet = getWalletByAddress(currentWallet);
     switch (activeTab) {
       case "wallet":
-        return <WalletTab balance={balance} error={error} />;
+        return (
+          <WalletTab
+            balance={balance}
+            error={error}
+            address={userData?.currentWallet}
+            walletName={wallet ? wallet.wallet_name : "No Wallet Found"}
+          />
+        );
       case "activity":
         return <ActivityTab />;
       case "profile":
-        return <ProfileTab />;
+        return <ProfileTab address={userData?.currentWallet} />;
       default:
         return <WalletTab />;
     }
@@ -144,18 +135,15 @@ function RootComponent() {
       {isSplashVisible ? (
         <SplashScreen />
       ) : (
-        <div className='reveal'>
-          <div className="position fixed min-h-[3.6em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2" ></div>
-        {<div>{renderTabContent()}</div>}
-          
-        
+        <div className="reveal">
+          <div className="position fixed min-h-[3.6em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2"></div>
+          {<div>{renderTabContent()}</div>}
+
           <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
-      
-      </div>
+        </div>
       )}
-      
     </StrictMode>
   );
 }
 
-createRoot(document.getElementById('root')!).render(<RootComponent />);
+createRoot(document.getElementById("root")!).render(<RootComponent />);

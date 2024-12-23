@@ -1,4 +1,4 @@
-import { Wallet, ArrowLeftRight, CircleUser } from "lucide-react";
+import { ArrowLeftRight } from "lucide-react";
 
 const TabComponent = (props: any) => {
 
@@ -22,12 +22,9 @@ const TabComponent = (props: any) => {
           onClick={() => props.setActiveTab("wallet")}
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1aa1] grid gap-2 place-items-center py-3 px-4`}
         >
-          <Wallet
-            height={18.5}
-            strokeWidth={2.5}
-            width={18.5}
-            color={`${props.activeTab === "wallet" ? "#747bff" : "white"}`}
-          />
+          
+          {props.activeTab === 'wallet' ? <img src="/wallet blue.svg" className="max-h-[25px] max-w-[25px]" /> :
+          <img src="/wallet white.svg" className="max-h-[25px] max-w-[25px]" />}
 
           <p className="max-sm:text-[0.85em]">Wallet</p>
         </button>
@@ -37,10 +34,10 @@ const TabComponent = (props: any) => {
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1a75] grid gap-2 place-items-center py-3 px-4`}
         >
           <ArrowLeftRight
-            height={18.5}
+            height={19}
             strokeWidth={2.5}
-            width={18.5}
-            color={`${props.activeTab === "activity" ? "#747bff" : "white"}`}
+            width={19}
+            color={`${props.activeTab === "activity" ? "#51b0fd" : "white"}`}
           />
 
           <p className="max-sm:text-[0.85em]">Activity</p>
@@ -51,12 +48,9 @@ const TabComponent = (props: any) => {
           onClick={() => props.setActiveTab("profile")}
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1a75] grid gap-2 place-items-center py-3 px-4`}
         >
-          <CircleUser
-            height={18.5}
-            strokeWidth={2.5}
-            width={18.5}
-            color={`${props.activeTab === "profile" ? "#747bff" : "white"}`}
-          />
+          
+          {props.activeTab === 'profile' ? <img src="/user-circle blue.svg" className="max-h-[25px] max-w-[25px]" /> :
+          <img src="/user-circle white.svg" className="max-h-[25px] max-w-[25px]" />}
 
           <p className="max-sm:text-[0.85em]">Profile</p>
         </button>

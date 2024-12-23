@@ -49,7 +49,7 @@ router.post('/wallet', async (req, res) => {
             ok: true,
             userId, // Include userId in the response
             wallet_name,
-            inj_address: walletData.injectiveAddress,
+            injective_address: walletData.injectiveAddress,
             evm_address: walletData.evmAddress,
         });
     } catch (error) {
@@ -120,7 +120,7 @@ router.post('/wallet/add', async (req, res) => {
             userId: userWallets.userId,
             newWallet: {
                 wallet_name,
-                inj_address: walletData.injectiveAddress,
+                injective_address: walletData.injectiveAddress,
                 evm_address: walletData.evmAddress,
             },
             wallets: userWallets.wallets.map(wallet => ({

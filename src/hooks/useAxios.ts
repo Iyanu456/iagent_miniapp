@@ -5,7 +5,7 @@ interface RequestConfig extends AxiosRequestConfig {
   body?: any; // Optional body field to support request payload
 }
 
-export default function useAxios() {
+const useAxios = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,3 +36,4 @@ export default function useAxios() {
   return { data, setData, loading, error, sendRequest };
 };
 
+export default useAxios;
