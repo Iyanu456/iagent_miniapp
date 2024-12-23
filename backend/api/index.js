@@ -23,6 +23,7 @@ app.use(cors({
 
   origin: [ 
     'http://localhost:5173', 
+    'https://iagent-miniapp-wps8.vercel.app/'
     
     ],
 
