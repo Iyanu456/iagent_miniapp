@@ -8,7 +8,7 @@ import TabComponent from "./components/TabComponent.tsx";
 import useAxios from "./hooks/useAxios.ts";
 import fetchBalance from "./config/FetchBalance.ts";
 
-const baseUrl = import.meta.env.VITE_BACKEND_API_URL;
+//const baseUrl = import.meta.env.VITE_BACKEND_API_URL;
 
 interface Wallet {
   wallet_name: string;
