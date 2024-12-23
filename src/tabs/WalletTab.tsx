@@ -31,7 +31,7 @@ export default function WalletTab(props: any) {
           <p className="font-semibold text-[2.2em] text-center">{props.balance} INJ</p>
         )}
 
-        {props.error && <p className="text-white">{props.error}</p>}
+        {/*props.error && <p className="text-white">{props.error}</p>*/}
 
         {props.address !== null && (
           <div className="flex items-center gap-2 justify-center px-6 py-1 mt-[2em] bg-gray-800 w-[fit-content] mx-auto rounded-2xl">
@@ -46,7 +46,7 @@ export default function WalletTab(props: any) {
           </div>
         )}
 
-        <div className="grid gap-[4em] grid-cols-3 mx-auto mt-5 place-items-center">
+        <div className="grid gap-[2.5em] grid-cols-3 mx-auto mt-5 place-items-center">
           <button className="grid place-items-center">
             <div className="grid place-items-center mb-1 w-[3em] h-[3em] bg-[#51b0fd] rounded-full">
               <ArrowUp className="" height={27} width={27} color="black" />

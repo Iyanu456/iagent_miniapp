@@ -118,7 +118,7 @@ function RootComponent() {
             balance={balance}
             error={error}
             address={userData?.currentWallet}
-            walletName={wallet ? wallet.wallet_name : "No Wallet Found"}
+            walletName={wallet ? wallet.wallet_name : ""}
           />
         );
       case "activity":
