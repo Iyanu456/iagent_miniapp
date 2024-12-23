@@ -50,7 +50,7 @@ function RootComponent() {
         // User data doesn't exist; create the first wallet
         try {
           const response = await sendRequest({
-            url: `${baseUrl}/api/wallet`,
+            url: `https://iagent-miniapp-2.onrender.com/api/wallet`,
             method: "POST",
           });
 
