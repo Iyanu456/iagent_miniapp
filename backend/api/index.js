@@ -6,7 +6,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const walletRoutes = require('./routes/wallet_route');
-const connectDB  = require('./utils/db.js')
+const connectDB  = require('./utils/db.js');
+const cors = require('cors');
 //const mongoose = require('mongoose');
 
 
@@ -16,8 +17,31 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(passport.initialize());
-
 connectDB();
+
+app.use(cors({
+
+  origin: [ 
+    'http://localhost:5173', 
+    
+    ],
+
+  methods: [
+    'GET', 
+    'POST', 
+    'PUT', 
+    'DELETE', 
+    'OPTIONS'
+    ],
+
+  allowedHeaders: [
+  'Content-Type', 
+  'Authorization'
+  ],
+
+}));
+
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Express server!');

@@ -1,9 +1,3 @@
-//import { useState, useEffect } from 'react';
-//import { Wallet } from '@injectivelabs/wallet-ts';
-//import { getAddresses } from '../config/walletConnection.ts';
-//import { fetchBankBalances } from '../config/Query.ts';
-
-
 
 
 export default function WalletTab(props: any) {

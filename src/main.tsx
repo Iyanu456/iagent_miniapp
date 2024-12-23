@@ -1,15 +1,29 @@
 import { StrictMode, useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-//import { BrowserRouter, Routes, Route } from 'react-router-dom';
-//import FetchBalance from './pages/FetchBalance.tsx';
 import './index.css';
-//import App from './pages/App.tsx';
-//import CreateWallet from './pages/CreateWallet.tsx';
 import WalletTab from './tabs/WalletTab.tsx';
 import ActivityTab from './tabs/ActivityTab.tsx';
 import ProfileTab from './tabs/ProfileTab.tsx';
 import TabComponent from './components/TabComponent.tsx';
 import { fetchBankBalances } from './config/Query.ts';
+import useAxios from './hooks/useAxios.ts';
+
+
+const baseUrl = import.meta.env.VITE_BACKEND_API_URL;
+
+
+
+interface Wallet {
+  wallet_name: string;
+  injective_address: string;
+  evm_address: string;
+  balance: number;
+}
+
+interface JarvisUserData {
+  userId: string;
+  wallets: Wallet[];
+}
 
 
 function SplashScreen() {
@@ -22,10 +36,49 @@ function SplashScreen() {
 
 function RootComponent() {
   const [activeTab, setActiveTab] = useState<string | null>('wallet');
-   //const [address, setAddress] = useState<string>('');
    const [balance, setBalance] = useState<string>('0.0000');
-   const [error, setError] = useState<string | null>(null);
    const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
+   const { data, setData, error, sendRequest } = useAxios();
+
+
+
+
+   useEffect(() => {
+    const initializeUserData = async () => {
+      // Retrieve user data from localStorage
+      const savedUserData = localStorage.getItem('jarvisUserData');
+
+      if (savedUserData) {
+        // User data exists in localStorage
+        setData(JSON.parse(savedUserData));
+      } else {
+        // User data doesn't exist; create the first wallet
+        const response = await sendRequest({
+          url: `${baseUrl}/api/wallet`, // Replace with your create wallet endpoint
+          method: 'POST',
+        });
+
+        if (response && response.userId && response.inj_address) {
+          const newUserData: JarvisUserData = {
+            userId: response.userId,
+            wallets: [
+              { 
+                injective_address: response.injective_address,
+                evm_address: response.evm_address,
+                wallet_name: response.wallet_name,
+                balance: response.balance // 100,000,000,000,000,000
+               }],
+          };
+
+          // Save user data to localStorage
+          localStorage.setItem('jarvisUserData', JSON.stringify(newUserData));
+        }
+      }
+    };
+
+    initializeUserData();
+  }, [sendRequest]);
+
 
    useEffect(() => {
     // Simulate loading or initialization
@@ -35,6 +88,9 @@ function RootComponent() {
 
     return () => clearTimeout(timer); // Cleanup timer on unmount
   }, []);
+
+
+  
  
  
    useEffect(() => {
@@ -58,15 +114,17 @@ function RootComponent() {
        return formattedBalance.toFixed(3);  
      } catch (error) {
        console.error('Error fetching balance:', error);
-       setError('Error fetching balance. Please try again later.');
        setBalance('0.0000');
        return '0.0000'; // Default value in case of error
      }
    };
  
-     fetchBalance('inj1rrqc20lhy48e9lxetcpxvqwj3t594hwy3q3y77');
+     fetchBalance(data.inj_address);
    },[])
 
+   /*const clearUserData = () => {
+    localStorage.removeItem('jarvisUserData'); // Remove stored user ID
+  };*/
 
   const renderTabContent = () => {
     switch (activeTab) {
