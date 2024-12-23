@@ -43,6 +43,8 @@ app.use(cors({
 }));
 
 
+app.options('*', cors());  // Preflight request handling
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Express server!');
