@@ -25,8 +25,8 @@ interface JarvisUserData {
 
 function SplashScreen() {
   return (
-    <div className=" w-[100vw] h-[100vh] grid place-items-center">
-      <h1 className="text-[2.2em] font-semibold">Jarvis</h1>
+    <div className="w-[100vw] h-[100vh] grid place-items-center">
+      <img src="/Jarvis logo.png"  className="max-h-[20em] max-w-[20em] sm:max-h-[23em] sm:max-w-[23em]"/>
     </div>
   );
 }
@@ -84,7 +84,7 @@ function RootComponent() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 1500);
+    }, 3500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -108,9 +108,12 @@ function RootComponent() {
 
     return wallet;
   };
+
+  const currentWallet = userData?.currentWallet || null; // Fallback to null if undefined
+  const wallet = getWalletByAddress(currentWallet);
+
   const renderTabContent = () => {
-    const currentWallet = userData?.currentWallet || null; // Fallback to null if undefined
-    const wallet = getWalletByAddress(currentWallet);
+  
     switch (activeTab) {
       case "wallet":
         return (
@@ -136,7 +139,13 @@ function RootComponent() {
         <SplashScreen />
       ) : (
         <div className="reveal">
-          <div className="position fixed min-h-[3.6em] w-[100vw] border-[#3a3a3a8c] max-sm:border-b-2"></div>
+          <div className="position fixed py-5 w-[100vw] grid place-items-center ">
+          {wallet?.wallet_name !== null && (
+          <div className="flex gap-3 px-6 py-1 bg-gray-800 mx-auto rounded-2xl w-[7em] justify-center">
+            <img src="/wallet white.svg" className="max-h-[22px] max-w-[22px]" />
+            <p className="text-center">{wallet?.wallet_name}</p>
+          </div>
+        )}</div>
           {<div>{renderTabContent()}</div>}
 
           <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
