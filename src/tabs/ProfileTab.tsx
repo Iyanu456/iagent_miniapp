@@ -7,7 +7,7 @@ export default function ProfileTab(props: any) {
             <h2>Profile Tab</h2>
             {props.address !== null && (<>
         <p className="py-1 mt-[2em] bg-gray-800  mx-auto rounded-2xl text-center">{props.address}</p>
-        <p className="py-1 mt-[2em] bg-gray-800  mx-auto rounded-2xl text-center">{props.telegramUserId}</p>
+        <p className="py-1 mt-[2em] bg-gray-800  mx-auto rounded-2xl text-center">user id: {props.telegramUserId}</p>
       </>)}
         </div>
     );
