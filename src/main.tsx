@@ -22,7 +22,7 @@ interface JarvisUserData {
 
 function SplashScreen() {
   return (
-    <div className="w-[100vw] h-[100vh] grid place-items-center">
+    <div className="w-[100vw] h-[90vh] grid place-items-center">
       <img src="/Jarvis logo.png" className="max-h-[20em] max-w-[20em] sm:max-h-[23em] sm:max-w-[23em]" />
     </div>
   );
