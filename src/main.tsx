@@ -103,13 +103,13 @@ function RootComponent() {
             balance={balance}
             address={userData?.currentWallet}
             walletName={wallet ? wallet.wallet_name : ""}
-            telegramUserId={telegramUserId} // Pass Telegram user ID as a prop
+             // Pass Telegram user ID as a prop
           />
         );
       case "activity":
         return <ActivityTab />;
       case "profile":
-        return <ProfileTab address={userData?.currentWallet} />;
+        return <ProfileTab address={userData?.currentWallet} telegramUserId={telegramUserId} />;
       default:
         return <WalletTab />;
     }
