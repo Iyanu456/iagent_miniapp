@@ -3,13 +3,12 @@ const Wallet = require('../models/wallet_model');
 const router = express.Router();
 const { encrypt } = require('../utils/encrypt');
 const { createInjectiveWallet } = require('../utils/create_wallet');
-const { v4: uuidv4 } = require('uuid'); // UUID library
 
 // Endpoint: Create New Wallet
 router.post('/wallet', async (req, res) => {
     try {
-        // Generate a unique userId
-        const userId = uuidv4();
+        const { userId } = req.body;
+
         const wallet_name = 'wallet';
 
         // Wait for the wallet creation to be complete
@@ -31,13 +30,13 @@ router.post('/wallet', async (req, res) => {
         // Save wallet details to the database
         const wallet = new Wallet({
             userId,
+            current_injective_address: walletData.injectiveAddress,
             wallets: [
                 {
                     wallet_name,
                     injective_address: walletData.injectiveAddress,
                     evm_address: walletData.evmAddress,
                     private_key: encryptedPrivateKey,
-                    balance: 0,
                 },
             ],
         })

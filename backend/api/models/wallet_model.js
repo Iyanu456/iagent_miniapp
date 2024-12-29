@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const walletSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true }, // Unique user ID
+    current_injective_address: { type: String, required: true, unique: true},
     wallets: [
         {
             wallet_name: {type: String, required: true, unique: true},
