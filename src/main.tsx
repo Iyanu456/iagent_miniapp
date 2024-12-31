@@ -8,6 +8,7 @@ import TabComponent from "./components/TabComponent.tsx";
 import fetchBalance from "./config/FetchBalance.ts";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SendPage from "./SendPage.tsx";
+import { useSearchParams } from "react-router-dom";
 
 interface Wallet {
   wallet_name: string;
@@ -117,7 +118,12 @@ function RootComponent() {
     }
   };
 
-  function MainComponent() {
+  const [searchParams] = useSearchParams();
+
+
+  const userId = searchParams.get("userId");
+
+  function MainComponent(props: any) {
     return(<>
     {isSplashVisible ? (
       <SplashScreen />
@@ -133,7 +139,7 @@ function RootComponent() {
         </div>
         <div>{renderTabContent()}</div>
 
-        <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} userId={props.userId}/>
       </div>
     )}</>) 
   }
@@ -143,8 +149,8 @@ function RootComponent() {
       <BrowserRouter>
 
       <Routes>
-      <Route path="/" element={<MainComponent />} />
-      <Route path="/main" element={<MainComponent />} />
+      <Route path="/" element={<MainComponent userId={userId} />} />
+      <Route path="/main" element={<MainComponent userId={userId}/>} />
       <Route path="/userId" element={<SendPage />} />
       
       </Routes>
