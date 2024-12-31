@@ -6,6 +6,8 @@ import ActivityTab from "./tabs/ActivityTab.tsx";
 import ProfileTab from "./tabs/ProfileTab.tsx";
 import TabComponent from "./components/TabComponent.tsx";
 import fetchBalance from "./config/FetchBalance.ts";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SendPage from "./SendPage.tsx";
 
 interface Wallet {
   wallet_name: string;
@@ -115,25 +117,39 @@ function RootComponent() {
     }
   };
 
+  function MainComponent() {
+    return(<>
+    {isSplashVisible ? (
+      <SplashScreen />
+    ) : (
+      <div className="reveal">
+        <div className="position fixed py-5 w-[100vw] grid place-items-center ">
+          {wallet?.wallet_name !== null && (
+            <div className="flex gap-3 px-6 py-1 bg-gray-800 mx-auto rounded-2xl w-[7em] justify-center">
+              <img src="/wallet white.svg" className="max-h-[22px] max-w-[22px]" />
+              <p className="text-center">{wallet?.wallet_name}</p>
+            </div>
+          )}
+        </div>
+        <div>{renderTabContent()}</div>
+
+        <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+    )}</>) 
+  }
+
   return (
     <StrictMode>
-      {isSplashVisible ? (
-        <SplashScreen />
-      ) : (
-        <div className="reveal">
-          <div className="position fixed py-5 w-[100vw] grid place-items-center ">
-            {wallet?.wallet_name !== null && (
-              <div className="flex gap-3 px-6 py-1 bg-gray-800 mx-auto rounded-2xl w-[7em] justify-center">
-                <img src="/wallet white.svg" className="max-h-[22px] max-w-[22px]" />
-                <p className="text-center">{wallet?.wallet_name}</p>
-              </div>
-            )}
-          </div>
-          <div>{renderTabContent()}</div>
+      <BrowserRouter>
 
-          <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} />
-        </div>
-      )}
+      <Routes>
+      <Route path="/" element={<MainComponent />} />
+      <Route path="/main" element={<MainComponent />} />
+      <Route path="/userId" element={<SendPage />} />
+      
+      </Routes>
+      </BrowserRouter>
+
     </StrictMode>
   );
 }
