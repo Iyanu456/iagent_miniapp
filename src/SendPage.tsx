@@ -28,10 +28,11 @@ const SendPage: React.FC = () => {
     setMessage(null);
 
     try {
-      const response = await fetch("https://dummyapi.example.com/send", {
+      const response = await fetch("https://iagent-1.onrender.com/transfer_funds", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer Iyanuoluwa"
         },
         body: JSON.stringify({
           userId,
@@ -55,7 +56,7 @@ const SendPage: React.FC = () => {
 
   return (
     <div className="w-[100vw] min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
-      <h1 className="text-2xl font-bold text-white mb-6">Send Crypto</h1>
+      <h1 className="text-2xl font-bold text-white mb-6">Send Crypto {userId}</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md"
