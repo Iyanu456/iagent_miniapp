@@ -62,7 +62,7 @@ const SendPage: React.FC = () => {
       >
         <div className="mb-4">
           <label htmlFor="recipient" className="block text-gray-300 mb-2">
-            Recipient Wallet Address
+            Recipient Wallet Address (INJ)
           </label>
           <input
             type="text"
@@ -74,7 +74,7 @@ const SendPage: React.FC = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="amount" className="block text-gray-300 mb-2">
-            Amount
+            Amount (INJ)
           </label>
           <input
             type="number"
