@@ -118,17 +118,20 @@ function RootComponent() {
     }
   };
 
-  const [searchParams] = useSearchParams();
+ 
 
 
-  const userId = searchParams.get("userId");
+  
 
-  function MainComponent(props: any) {
+  function MainComponent() {
+    const [searchParams] = useSearchParams();
+    const userId = searchParams.get("userId");
+
     return(<>
     {isSplashVisible ? (
       <SplashScreen />
     ) : (
-      <div className="reveal">
+      <div className="">
         <div className="position fixed py-5 w-[100vw] grid place-items-center ">
           {wallet?.wallet_name !== null && (
             <div className="flex gap-3 px-6 py-1 bg-gray-800 mx-auto rounded-2xl w-[7em] justify-center">
@@ -139,7 +142,7 @@ function RootComponent() {
         </div>
         <div>{renderTabContent()}</div>
 
-        <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} userId={props.userId}/>
+        <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} userId={userId}/>
       </div>
     )}</>) 
   }
@@ -149,8 +152,7 @@ function RootComponent() {
       <BrowserRouter>
 
       <Routes>
-      <Route path="/" element={<MainComponent userId={userId} />} />
-      <Route path="/main" element={<MainComponent userId={userId}/>} />
+      <Route path="/" element={<MainComponent />} />
       <Route path="/userId" element={<SendPage />} />
       
       </Routes>
