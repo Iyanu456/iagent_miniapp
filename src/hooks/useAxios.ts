@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 
 interface RequestConfig extends AxiosRequestConfig {
-  body?: any; // Optional body field to support request payload
+  body?: any; // Optional body field for request payload
 }
 
 const useAxios = () => {
@@ -10,24 +10,28 @@ const useAxios = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to trigger the Axios request on demand
   const sendRequest = async (config: RequestConfig) => {
     const { url, method = 'GET', body = null, headers = {} } = config;
     setLoading(true);
-    setError(null); // Reset error before a new request
+    setError(null);
 
     try {
       const response = await axios({
         url,
         method,
-        data: body,
-        headers,
+        data: body ? JSON.stringify(body) : null, // Serialize the body
+        headers: {
+          'Content-Type': 'application/json', // Ensure JSON content type
+          ...headers,
+        },
       });
       setData(response.data);
-      return response.data; // Return the response data directly
+      console.log(response.data)
+      return response.data; // Return response data
     } catch (err: any) {
-      setError(err?.response?.data?.message || 'An error occurred'); // Provide a structured error message
-      return null; // Return null in case of error
+      console.error('Axios Request Error:', err); // Log full error details
+      setError(err?.response?.data?.message || err.message || 'An unknown error occurred');
+      return null; // Return null on error
     } finally {
       setLoading(false);
     }
