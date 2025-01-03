@@ -5,7 +5,7 @@ import WalletTab from "./tabs/WalletTab.tsx";
 import ActivityTab from "./tabs/ActivityTab.tsx";
 import ProfileTab from "./tabs/ProfileTab.tsx";
 import TabComponent from "./components/TabComponent.tsx";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useSearchParams } from "react-router-dom";
 import SendPage from "./SendPage.tsx";
 import useAxios from "./hooks/useAxios.ts";
 
@@ -34,16 +34,34 @@ function SplashScreen() {
   );
 }
 
+
+
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function MainComponent() {
-  const { userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get('user_id');
   const [activeTab, setActiveTab] = useState<string>("wallet");
   const [balance, setBalance] = useState<string>("0.00");
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [telegramUserId, setTelegramUserId] = useState<string | null>(null);
   const { sendRequest } = useAxios();
+
+
+  useEffect(() => {
+    const initializeTelegramUser = () => {
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+        const { id } = window.Telegram.WebApp.initDataUnsafe.user;
+        setTelegramUserId(id.toString()); // Save Telegram user ID as a string
+      } else {
+        console.error("Failed to fetch Telegram user ID. Ensure Telegram Web App is initialized properly.");
+      }
+    };
+
+    initializeTelegramUser();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,28 +71,28 @@ function MainComponent() {
   }, []);
 
   useEffect(() => {
-    const checkUser = async () => {
+    const checkUser = async (id: string) => {
       try {
         const response = await sendRequest({
-          url: `${apiBaseUrl}/check_user/${userId}`,
+          url: `${apiBaseUrl}/check_user/${id}`,
           method: "GET",
           headers: { Authorization: "Bearer Iyanuoluwa" },
         });
 
         if (response?.exists) {
-          await fetchUserDetails(userId!);
-          await queryBalances(userId!);
+          await fetchUserDetails(id!);
+          await queryBalances(id!);
         } else {
           const registerResponse = await sendRequest({
             url: `${apiBaseUrl}/create_wallet`,
             method: "POST",
             headers: { Authorization: "Bearer Iyanuoluwa" },
-            body: { user_id: userId, wallet_name: "wallet" },
+            body: { user_id: id, wallet_name: "wallet" },
           });
 
           if (registerResponse?.ok) {
-            await fetchUserDetails(userId!);
-            await queryBalances(userId!);
+            await fetchUserDetails(id!);
+            await queryBalances(id!);
           } else {
             throw new Error("User registration failed");
           }
@@ -126,9 +144,10 @@ function MainComponent() {
     };
     
     
-
-    if (userId) checkUser();
-  }, []);
+    if (telegramUserId || userId) {
+      checkUser(telegramUserId || userId!);
+    }
+  }, [telegramUserId, userId]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -147,7 +166,7 @@ function MainComponent() {
       case "activity":
         return <ActivityTab />;
       case "profile":
-        return <ProfileTab address={userDetails?.current_injective_address || ""} />;
+        return <ProfileTab telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
       default:
         return <WalletTab />;
     }
@@ -182,8 +201,8 @@ function RootComponent() {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/:userId" element={<MainComponent />} />
-          <Route path="/transfer/:userId" element={<SendPage />} />
+          <Route path="/" element={<MainComponent />} />
+          <Route path="/transfer/" element={<SendPage />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>
