@@ -31,7 +31,7 @@ const TabComponent = (props: any) => {
 
         <button
           onClick={() => props.handleTabChange("activity")} disabled={props.activeTab === "activity"}
-          className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1a75] grid gap-2 place-items-center py-3 px-4`}
+          className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[rgba(60,60,60,0.1)] grid gap-2 place-items-center py-3 px-4`}
         >
           <ArrowLeftRight
             height={19}

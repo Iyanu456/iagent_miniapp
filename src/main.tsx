@@ -41,7 +41,7 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 function MainComponent() {
   const [searchParams, setSearchParams] = useSearchParams();
   //const [activeTab, setActiveTab] = useState<string>("wallet");
-  const [balance, setBalance] = useState<string>("0.00");
+  const [balance, setBalance] = useState<string>("0");
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
