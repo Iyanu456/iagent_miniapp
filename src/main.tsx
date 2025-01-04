@@ -39,6 +39,8 @@ function SplashScreen() {
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const authToken = import.meta.env.VITE_API_AUTH_TOKEN; 
 
+console.log(authToken)
+
 function MainComponent() {
   const [searchParams, setSearchParams] = useSearchParams();
   //const [activeTab, setActiveTab] = useState<string>("wallet");
@@ -73,7 +75,7 @@ function MainComponent() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 3500);
+    }, 4000);
     return () => clearTimeout(timer);
   }, []);
 

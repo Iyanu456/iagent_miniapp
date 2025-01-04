@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useAxios from "./hooks/useAxios";
 //import { useSearchParams } from "react-router-dom";\
 interface SendPageProps {
   userId: string; // Define expected prop
@@ -9,6 +10,7 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const { sendRequest } = useAxios();
   //const [searchParams] = useSearchParams();
 
   // Extract userId from search parameters
@@ -16,6 +18,17 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const authToken = import.meta.env.VITE_API_AUTH_TOKEN; // Replace with actual API token
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage(null)
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +47,7 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
     setMessage(null);
 
     try {
-      const response = await fetch(`${apiBaseUrl}/transfer_funds `, {
+      /*const response = await fetch(`${apiBaseUrl}/transfer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,19 +58,29 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
           recipientAddress: String(recipientAddress),
           amount: String(amount),
         }),
+      });*/
+
+      const response = await sendRequest({
+        url: `${apiBaseUrl}/transfer_funds`,
+        method: "POST",
+        headers: { Authorization: `Bearer ${authToken}` },
+        body: JSON.stringify({
+          user_id: String(userId),
+          recipient: String(recipientAddress),
+          amount: String(amount),
+        }),
       });
 
-      if (!response.ok) {
+      if (response?.ok) {
+        setMessage(`Transaction successful!`);
+      } else {
         throw new Error("Failed to send the transaction.");
       }
 
-      const data = await response.json();
-      setMessage(`Transaction successful: ${data.message}`);
+   
     } catch (error) {
       setMessage(`Error: ${(error as Error).message}`);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (
