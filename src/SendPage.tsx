@@ -70,7 +70,8 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
           amount: String(amount),
         }),
       });
-
+      
+      if (response) console.log(response);
       if (response?.ok) {
         setMessage(`Transaction successful!`);
       } else {
