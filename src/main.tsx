@@ -144,10 +144,10 @@ function MainComponent() {
     };
     
     
-    if (telegramUserId || userId) {
-      checkUser(telegramUserId || userId!);
+    if (telegramUserId) {
+      checkUser(telegramUserId);
     }
-  }, [telegramUserId, userId]);
+  }, []);
 
   const renderTabContent = () => {
     switch (activeTab) {
