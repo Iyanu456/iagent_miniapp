@@ -151,7 +151,7 @@ function MainComponent() {
     if (telegramUserId) {
       checkUser();
     }
-  }, []);
+  }, [telegramUserId]);
 
   const renderTabContent = () => {
     switch (activeTab) {
