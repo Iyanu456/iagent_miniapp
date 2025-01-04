@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+//import { useSearchParams } from "react-router-dom";\
+interface SendPageProps {
+  userId: string; // Define expected prop
+}
 
-const SendPage: React.FC = () => {
+const SendPage: React.FC<SendPageProps> = ({userId}) => {
   const [recipientAddress, setRecipientAddress] = useState("");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [searchParams] = useSearchParams();
+  //const [searchParams] = useSearchParams();
 
   // Extract userId from search parameters
-  const userId = searchParams.get("userId");
+  //const userId = searchParams.get("userId");
+
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const authToken = import.meta.env.VITE_API_AUTH_TOKEN; // Replace with actual API token
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,16 +34,16 @@ const SendPage: React.FC = () => {
     setMessage(null);
 
     try {
-      const response = await fetch("https://iagent-1.onrender.com/transfer_funds", {
+      const response = await fetch(`${apiBaseUrl}/transfer_funds `, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer Iyanuoluwa"
+          "Authorization": `Bearer ${authToken}`
         },
         body: JSON.stringify({
-          userId,
-          recipientAddress,
-          amount,
+          userId: String(userId),
+          recipientAddress: String(recipientAddress),
+          amount: String(amount),
         }),
       });
 
@@ -56,8 +62,8 @@ const SendPage: React.FC = () => {
 
   return (
     <div className="grid place-items-center w-[100vw] h-[80vh]">
-    <div className="max-sm:w-[100%] min-w-[16em] bg-gray-900 flex flex-col items-center justify-center px-4">
-      <h1 className="text-2xl font-bold text-white mb-6">Send</h1>
+    <div className="max-sm:w-[100%] min-w-[20em] bg-gray-900 flex flex-col items-center justify-center px-4">
+      <h1 className="text-2xl font-semibold text-white mb-4">Send</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md"
@@ -82,7 +88,13 @@ const SendPage: React.FC = () => {
             type="number"
             id="amount"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (parseFloat(value) >= 0 || value === "") {
+                setAmount(value);
+              }
+            }}
+            min={0}
             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

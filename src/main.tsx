@@ -37,6 +37,7 @@ function SplashScreen() {
 
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const authToken = import.meta.env.VITE_API_AUTH_TOKEN; 
 
 function MainComponent() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +46,7 @@ function MainComponent() {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [telegramUserId, setTelegramUserId] = useState<string | null>(null);
+  const [telegramUserId, setTelegramUserId] = useState<string>("");
   const { sendRequest } = useAxios();
   const [error_1, setError1] = useState<string | null>(null);
   const [error_2, setError2] = useState<string | null>(null);
@@ -82,7 +83,7 @@ function MainComponent() {
         const response = await sendRequest({
           url: `${apiBaseUrl}/check_user/${telegramUserId}`,
           method: "GET",
-          headers: { Authorization: "Bearer Iyanuoluwa" },
+          headers: { Authorization: `Bearer ${authToken}` },
         });
 
         if (response?.exists) {
@@ -92,7 +93,7 @@ function MainComponent() {
           const registerResponse = await sendRequest({
             url: `${apiBaseUrl}/create_wallet`,
             method: "POST",
-            headers: { Authorization: "Bearer Iyanuoluwa" },
+            headers: { Authorization: `Bearer ${authToken}` },
             body: { user_id: telegramUserId, wallet_name: "wallet" },
           });
 
@@ -115,7 +116,7 @@ function MainComponent() {
         const userData = await sendRequest({
           url: `${apiBaseUrl}/get_user_details/${id}`,
           method: "GET",
-          headers: { Authorization: "Bearer Iyanuoluwa" },
+          headers: { Authorization: `Bearer ${authToken}` },
         });
         setUserDetails(userData || null);
       } catch (err) {
@@ -129,7 +130,7 @@ function MainComponent() {
         const balanceData = await sendRequest({
           url: `${apiBaseUrl}/query_balances`,
           method: "POST",
-          headers: { Authorization: "Bearer Iyanuoluwa" },
+          headers: { Authorization: `Bearer ${authToken}` },
           body: { user_id: id },
         });
     
@@ -188,7 +189,7 @@ function MainComponent() {
   )}
       </div>
       <div>
-        {activeTab === "transfer" && <SendPage/>}
+        {activeTab === "transfer" && <SendPage userId={telegramUserId} />}
         {activeTab === "activity" && <ActivityTab/>}
         {activeTab === "profile" && <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />}
         {activeTab === "wallet" && 
@@ -212,7 +213,7 @@ function MainComponent() {
           }
           activeTab={activeTab} handleTabChange={handleTabChange}/>}
         </div>
-      <TabComponent activeTab={activeTab} handleTabChange={handleTabChange}/>
+      {<TabComponent activeTab={activeTab} handleTabChange={handleTabChange}/>}
     </div>
   );
 }
@@ -224,7 +225,6 @@ function RootComponent() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainComponent />} />
-          <Route path="/transfer/" element={<SendPage />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

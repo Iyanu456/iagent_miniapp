@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeftRight, ArrowUp, Copy } from "lucide-react";
+import { ArrowUpRight, Copy } from "lucide-react";
 import { useEffect, useState
 
 
@@ -56,29 +56,27 @@ export default function WalletTab(props: any) {
           </div>
         )}
 
-        <div className="grid gap-[2.5em] grid-cols-3 mx-auto mt-[10em] place-items-center">
+        <div className="grid gap-[2.5em] w-[100%] mx-auto mt-[10em] place-items-center">
           <button 
           onClick={() => props.handleTabChange("transfer")} disabled={props.activeTab === "transfer"}
-          className="grid place-items-center">
-            <div className="grid place-items-center mb-1 w-[3em] h-[3em] bg-[#51b0fd] rounded-full">
-              <ArrowUp className="" height={27} width={27} color="black" />
+          className="grid place-items-center max-sm:w-[80%] w-[18em]">
+            <div className="grid place-items-center mb-1 w-[100%] h-[3em] bg-[#51b0fd] rounded-md">
+              <div className="flex gap-1">
+              
+              <p className="text-[1em] my-auto text-[#111827] font-semibold">Send</p>
+              <ArrowUpRight className="" height={27} width={27} color="black" />
+              </div>
+              
             </div>
-            <p className="text-[0.9em]">Send</p>
+            
           </button>
 
-          <button className="grid place-items-center">
+          {/*<button className="grid place-items-center">
             <div className="grid place-items-center mb-1 w-[3em] h-[3em] bg-[#51b0fd] rounded-full">
               <ArrowDown className="" height={27} width={27} color="black" />
             </div>
             <p className="text-[0.9em]">Receive</p>
-          </button>
-
-          <button className="grid place-items-center">
-            <div className="grid place-items-center mb-1 w-[3em] h-[3em] bg-[#51b0fd] rounded-full">
-              <ArrowLeftRight className="" height={24} width={24} color="black" />
-            </div>
-            <p className="text-[0.9em]">Stake</p>
-          </button>
+          </button>*/}
         </div>
       </div>
     </main>
