@@ -146,7 +146,19 @@ function MainComponent() {
         setError("Failed to fetch balances");
       }
     };
+
+    const initializeTelegramUser = () => {
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+        const { id } = window.Telegram.WebApp.initDataUnsafe.user;
+        setTelegramUserId(id.toString()); // Save Telegram user ID as a string
+      } else {
+        console.error("Failed to fetch Telegram user ID. Ensure Telegram Web App is initialized properly.");
+      }
+    };
+
     
+    
+    initializeTelegramUser();
     
     if (telegramUserId) {
       checkUser();
@@ -170,7 +182,7 @@ function MainComponent() {
       case "activity":
         return <ActivityTab />;
       case "profile":
-        return <ProfileTab error_1={error_1} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
+        return <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
       default:
         return <WalletTab />;
     }
