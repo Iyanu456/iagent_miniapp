@@ -71,28 +71,28 @@ function MainComponent() {
   }, []);
 
   useEffect(() => {
-    const checkUser = async (id: string) => {
+    const checkUser = async () => {
       try {
         const response = await sendRequest({
-          url: `${apiBaseUrl}/check_user/${id}`,
+          url: `${apiBaseUrl}/check_user/${telegramUserId}`,
           method: "GET",
           headers: { Authorization: "Bearer Iyanuoluwa" },
         });
 
         if (response?.exists) {
-          await fetchUserDetails(id!);
-          await queryBalances(id!);
+          await fetchUserDetails(telegramUserId!);
+          await queryBalances(telegramUserId!);
         } else {
           const registerResponse = await sendRequest({
             url: `${apiBaseUrl}/create_wallet`,
             method: "POST",
             headers: { Authorization: "Bearer Iyanuoluwa" },
-            body: { user_id: id, wallet_name: "wallet" },
+            body: { user_id: telegramUserId, wallet_name: "wallet" },
           });
 
           if (registerResponse?.ok) {
-            await fetchUserDetails(id!);
-            await queryBalances(id!);
+            await fetchUserDetails(telegramUserId!);
+            await queryBalances(telegramUserId!);
           } else {
             throw new Error("User registration failed");
           }
@@ -145,7 +145,7 @@ function MainComponent() {
     
     
     if (telegramUserId) {
-      checkUser(telegramUserId);
+      checkUser();
     }
   }, []);
 
