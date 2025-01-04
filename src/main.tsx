@@ -172,12 +172,14 @@ function MainComponent() {
     }
   }, [telegramUserId]);
 
+ console.log(userDetails)
 
   return isSplashVisible ? (
     <SplashScreen />
   ) : (
     <div>
       {error && <div className="error">{error}</div>}
+      {userDetails == null && <div className=" absolute top-[2em] left-[20%] text-center right-[20%] text-gray-500 mx-auto">Fetching your data, please wait...</div>}
       <div className="position fixed py-5 w-[100vw] grid place-items-center">
       {userDetails && userDetails.wallets && userDetails.wallets.length > 0 && (
     <div className="flex gap-3 px-6 py-1 bg-gray-800 mx-auto rounded-2xl w-[7em] justify-center">
@@ -196,6 +198,7 @@ function MainComponent() {
         {activeTab === "profile" && <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />}
         {activeTab === "wallet" && 
         <WalletTab
+        userDetails={userDetails}
           balance={balance}
           address={userDetails?.current_injective_address || ""}
           walletName={
@@ -206,6 +209,7 @@ function MainComponent() {
           activeTab={activeTab} handleTabChange={handleTabChange}/>}
         {activeTab === null && 
         <WalletTab 
+          userDetails={userDetails}
           balance={balance}
           address={userDetails?.current_injective_address || ""}
           walletName={
@@ -219,6 +223,7 @@ function MainComponent() {
     </div>
   );
 }
+
 
 
 function RootComponent() {

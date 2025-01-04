@@ -33,6 +33,7 @@ export default function WalletTab(props: any) {
   return (
     <main className="w-[100vw] grid h-[100vh] pt-[6em] relative">
       <div className="flex flex-col gap-[0em] text-center">
+       
         
         
 
