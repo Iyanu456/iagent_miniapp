@@ -55,7 +55,8 @@ const SendPage: React.FC = () => {
   };
 
   return (
-    <div className="w-[100vw] min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="grid place-items-center w-[100vw] h-[80vh]">
+    <div className="max-sm:w-[100%] min-w-[16em] bg-gray-900 flex flex-col items-center justify-center px-4">
       <h1 className="text-2xl font-bold text-white mb-6">Send</h1>
       <form
         onSubmit={handleSubmit}
@@ -98,6 +99,7 @@ const SendPage: React.FC = () => {
       {message && (
         <p className="mt-4 text-center text-white">{message}</p>
       )}
+    </div>
     </div>
   );
 };
