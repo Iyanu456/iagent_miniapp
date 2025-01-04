@@ -53,6 +53,11 @@ function MainComponent() {
   const [error_2, setError2] = useState<string | null>(null);
   const activeTab = searchParams.get("active_tab") || "wallet";
 
+  const [recipientAddress, setRecipientAddress] = useState("");
+  const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
   const handleTabChange = (tabName: string) => {
     setSearchParams({ active_tab: tabName });
   }
@@ -192,7 +197,19 @@ function MainComponent() {
   )}
       </div>
       <div>
-        {activeTab === "transfer" && <SendPage userId={telegramUserId} />}
+        {activeTab === "transfer" && 
+        <SendPage 
+        
+          userId={telegramUserId} 
+          setMessage={setMessage}
+          message={message}
+          recipientAddress={recipientAddress} 
+          setRecipientAddress={setRecipientAddress} 
+          amount={amount}
+          setAmount={setAmount}
+          loading={loading}
+          setLoading={setLoading}
+        />}
         {activeTab === "activity" && <ActivityTab/>}
         {activeTab === "profile" && <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />}
         {activeTab === "wallet" && 

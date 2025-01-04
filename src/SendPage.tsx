@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import useAxios from "./hooks/useAxios";
 //import { useSearchParams } from "react-router-dom";\
 interface SendPageProps {
-  userId: string; // Define expected prop
+  userId: string;
+  setMessage: any
+  message: any 
+  recipientAddress: any
+  setRecipientAddress: any
+  amount: any
+  setAmount: any
+  loading:any
+  setLoading: any// Define expected prop
 }
 
-const SendPage: React.FC<SendPageProps> = ({userId}) => {
-  const [recipientAddress, setRecipientAddress] = useState("");
-  const [amount, setAmount] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+const SendPage: React.FC<SendPageProps> = (props) => {
+  
   const { sendRequest } = useAxios();
   //const [searchParams] = useSearchParams();
 
@@ -22,29 +27,29 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessage(null)
+      props.setMessage(null)
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [message]);
+  }, [props.message]);
 
 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!recipientAddress || !amount) {
-      setMessage("Both fields are required.");
+    if (!props.recipientAddress || !props.amount) {
+      props.setMessage("Both fields are required.");
       return;
     }
 
-    if (!userId) {
-      setMessage("User ID is missing in the URL.");
+    if (!props.userId) {
+      props.setMessage("User ID is missing in the URL.");
       return;
     }
 
-    setLoading(true);
-    setMessage(null);
+    props.setLoading(true);
+    props.setMessage(null);
 
     try {
       /*const response = await fetch(`${apiBaseUrl}/transfer`, {
@@ -55,35 +60,35 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
         },
         body: JSON.stringify({
           userId: String(userId),
-          recipientAddress: String(recipientAddress),
+          props.recipientAddress: String(props.recipientAddress),
           amount: String(amount),
         }),
       });*/
 
-      console.log(userId);
+      console.log(props.userId);
       const response = await sendRequest({
         url: `${apiBaseUrl}/transfer_funds`,
         method: "POST",
         headers: { Authorization: `Bearer ${authToken}` },
         body: {
-          user_id: userId,
-          recipient: recipientAddress,
-          amount: amount,
+          user_id: props.userId,
+          recipient: props.recipientAddress,
+          amount: props.amount,
         },
       });
       
       if (response) console.log(response);
       if (response?.ok) {
-        setMessage(`Transaction successful!`);
-        setLoading(false)
+        props.setMessage(`Transaction successful!`);
+        props.setLoading(false)
       } else {
-        setLoading(false)
+        props.setLoading(false)
         throw new Error("Failed to send the transaction.");
       }
 
    
     } catch (error) {
-      setMessage(`Error: ${(error as Error).message}`);
+      props.setMessage(`Error: ${(error as Error).message}`);
     } 
   };
 
@@ -103,8 +108,8 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
             type="text"
             id="recipient"
             
-            value={recipientAddress}
-            onChange={(e) => setRecipientAddress(e.target.value)}
+            value={props.recipientAddress}
+            onChange={(e) => props.setRecipientAddress(e.target.value)}
             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -116,11 +121,11 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
             type="number"
             id="amount"
             step="0.000000001"
-            value={amount}
+            value={props.amount}
             onChange={(e) => {
               const value = e.target.value;
               if (parseFloat(value) >= 0 || value === "") {
-                setAmount(value);
+                props.setAmount(value);
               }
             }}
             min={0}
@@ -129,16 +134,16 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
         </div>
         <button
           type="submit"
-          disabled={loading}
+          disabled={props.loading}
           className={`w-full p-3 rounded bg-blue-600 text-white font-bold ${
-            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+            props.loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
           }`}
         >
-          {loading ? "Sending..." : "Send"}
+          {props.loading ? "Sending..." : "Send"}
         </button>
       </form>
-      {message && (
-        <p className="mt-4 text-center text-white">{message}</p>
+      {props.message && (
+        <p className="mt-4 text-center text-white">{props.message}</p>
       )}
     </div>
     </div>
