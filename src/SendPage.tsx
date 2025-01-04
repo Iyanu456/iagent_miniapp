@@ -74,7 +74,9 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
       if (response) console.log(response);
       if (response?.ok) {
         setMessage(`Transaction successful!`);
+        setLoading(false)
       } else {
+        setLoading(false)
         throw new Error("Failed to send the transaction.");
       }
 
