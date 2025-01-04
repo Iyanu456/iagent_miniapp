@@ -39,9 +39,8 @@ function SplashScreen() {
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function MainComponent() {
-  const [searchParams] = useSearchParams();
-  const userId = searchParams.get('user_id');
-  const [activeTab, setActiveTab] = useState<string>("wallet");
+  const [searchParams, setSearchParams] = useSearchParams();
+  //const [activeTab, setActiveTab] = useState<string>("wallet");
   const [balance, setBalance] = useState<string>("0.00");
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
@@ -50,6 +49,11 @@ function MainComponent() {
   const { sendRequest } = useAxios();
   const [error_1, setError1] = useState<string | null>(null);
   const [error_2, setError2] = useState<string | null>(null);
+  const activeTab = searchParams.get("active_tab") || "wallet";
+
+  const handleTabChange = (tabName: string) => {
+    setSearchParams({ active_tab: tabName });
+  }
 
 
   //useEffect(() => {
@@ -165,28 +169,6 @@ function MainComponent() {
     }
   }, [telegramUserId]);
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "wallet":
-        return (
-          <WalletTab
-            balance={balance}
-            address={userDetails?.current_injective_address || ""}
-            walletName={
-              userDetails?.wallets && userDetails.wallets.length > 0
-                ? userDetails.wallets[0].wallet_name
-                : "N/A"
-            }
-          />
-        );
-      case "activity":
-        return <ActivityTab />;
-      case "profile":
-        return <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
-      default:
-        return <WalletTab />;
-    }
-  };
 
   return isSplashVisible ? (
     <SplashScreen />
@@ -205,8 +187,32 @@ function MainComponent() {
     </div>
   )}
       </div>
-      <div>{renderTabContent()}</div>
-      <TabComponent activeTab={activeTab} setActiveTab={setActiveTab} userId={userId} />
+      <div>
+        {activeTab === "transfer" && <SendPage/>}
+        {activeTab === "activity" && <ActivityTab/>}
+        {activeTab === "profile" && <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />}
+        {activeTab === "wallet" && 
+        <WalletTab
+          balance={balance}
+          address={userDetails?.current_injective_address || ""}
+          walletName={
+            userDetails?.wallets && userDetails.wallets.length > 0
+              ? userDetails.wallets[0].wallet_name
+              : ""
+          }
+          activeTab={activeTab} handleTabChange={handleTabChange}/>}
+        {activeTab === null && 
+        <WalletTab 
+          balance={balance}
+          address={userDetails?.current_injective_address || ""}
+          walletName={
+            userDetails?.wallets && userDetails.wallets.length > 0
+              ? userDetails.wallets[0].wallet_name
+              : ""
+          }
+          activeTab={activeTab} handleTabChange={handleTabChange}/>}
+        </div>
+      <TabComponent activeTab={activeTab} handleTabChange={handleTabChange}/>
     </div>
   );
 }

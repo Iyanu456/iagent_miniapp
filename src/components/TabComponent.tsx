@@ -19,7 +19,7 @@ const TabComponent = (props: any) => {
     <div className="w-full grid place-items-center mx-auto fixed bottom-0 top-auto left-[auto] right-auto">
       <div className="sm:bg-[#4646464b] border-[#3a3a3a8c] max-sm:border-t-2 max-sm:w-[100%] shadow-md sm:mb-[2.5em] grid grid-cols-3  sm:gap-4 sm:min-w-[30em] sm:p-3 sm:rounded-xl">
         <button
-          onClick={() => props.setActiveTab("wallet")}
+          onClick={() => props.handleTabChange("wallet")} disabled={props.activeTab === "wallet"}
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1aa1] grid gap-2 place-items-center py-3 px-4`}
         >
           
@@ -30,7 +30,7 @@ const TabComponent = (props: any) => {
         </button>
 
         <button
-          onClick={() => props.setActiveTab("activity")}
+          onClick={() => props.handleTabChange("activity")} disabled={props.activeTab === "activity"}
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1a75] grid gap-2 place-items-center py-3 px-4`}
         >
           <ArrowLeftRight
@@ -45,7 +45,7 @@ const TabComponent = (props: any) => {
 
 
         <button
-          onClick={() => props.setActiveTab("profile")}
+          onClick={() => props.handleTabChange("profile")} disabled={props.activeTab === "profile"}
           className={`sm:rounded-[8px] max-sm:py-3 hover:bg-[#1a1a1a75] grid gap-2 place-items-center py-3 px-4`}
         >
           

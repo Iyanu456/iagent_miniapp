@@ -57,7 +57,9 @@ export default function WalletTab(props: any) {
         )}
 
         <div className="grid gap-[2.5em] grid-cols-3 mx-auto mt-[10em] place-items-center">
-          <button className="grid place-items-center">
+          <button 
+          onClick={() => props.handleTabChange("transfer")} disabled={props.activeTab === "transfer"}
+          className="grid place-items-center">
             <div className="grid place-items-center mb-1 w-[3em] h-[3em] bg-[#51b0fd] rounded-full">
               <ArrowUp className="" height={27} width={27} color="black" />
             </div>
