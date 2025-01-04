@@ -60,15 +60,16 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
         }),
       });*/
 
+      console.log(userId);
       const response = await sendRequest({
         url: `${apiBaseUrl}/transfer_funds`,
         method: "POST",
         headers: { Authorization: `Bearer ${authToken}` },
-        body: JSON.stringify({
-          user_id: String(userId),
-          recipient: String(recipientAddress),
-          amount: String(amount),
-        }),
+        body: {
+          user_id: userId,
+          recipient: recipientAddress,
+          amount: amount,
+        },
       });
       
       if (response) console.log(response);
