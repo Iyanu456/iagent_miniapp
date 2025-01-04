@@ -11,6 +11,7 @@ interface SendPageProps {
   setAmount: any
   loading:any
   setLoading: any// Define expected prop
+  queryBalances: any
 }
 
 const SendPage: React.FC<SendPageProps> = (props) => {
@@ -81,6 +82,7 @@ const SendPage: React.FC<SendPageProps> = (props) => {
       if (response?.success) {
         props.setMessage(`Transaction successful!`);
         props.setLoading(false)
+        await props.queryBalances(props.userId!);
       } else {
         props.setLoading(false)
         throw new Error("Failed to send the transaction.");

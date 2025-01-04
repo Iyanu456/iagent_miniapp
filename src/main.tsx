@@ -76,6 +76,33 @@ function MainComponent() {
   //  initializeTelegramUser();
   //}, []);
 
+  const queryBalances = async (id: string) => {
+    try {
+      const balanceData = await sendRequest({
+        url: `${apiBaseUrl}/query_balances`,
+        method: "POST",
+        headers: { Authorization: `Bearer ${authToken}` },
+        body: { user_id: id },
+      });
+  
+      // Extract the `inj` balance
+      const injBalanceRaw = balanceData?.balances?.find((b: { token: string }) => b.token === "inj")?.balance || "0";
+      const injBalance = parseFloat(injBalanceRaw);
+  
+      // Round to exactly 4 decimal places
+      const roundedBalance = Math.floor(injBalance * 10000) / 10000;
+  
+      // Format the balance
+      const formattedBalance = roundedBalance === 0 ? "0" : `${roundedBalance.toFixed(4)}`;
+  
+      setBalance(formattedBalance);
+    } catch (err) {
+      console.error(err);
+      setError2(`${err}`);
+      setError("Failed to fetch balances");
+    }
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
@@ -209,6 +236,8 @@ function MainComponent() {
           setAmount={setAmount}
           loading={loading}
           setLoading={setLoading}
+          queryBalances={queryBalances}
+
         />}
         {activeTab === "activity" && <ActivityTab/>}
         {activeTab === "profile" && <ProfileTab error_1={error_1} error={error} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />}
