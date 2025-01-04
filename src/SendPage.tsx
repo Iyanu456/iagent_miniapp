@@ -78,7 +78,7 @@ const SendPage: React.FC<SendPageProps> = (props) => {
       });
       
       if (response) console.log(response);
-      if (response?.ok) {
+      if (response?.success) {
         props.setMessage(`Transaction successful!`);
         props.setLoading(false)
       } else {
