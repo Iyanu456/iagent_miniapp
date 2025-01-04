@@ -52,18 +52,18 @@ function MainComponent() {
   const [error_2, setError2] = useState<string | null>(null);
 
 
-  useEffect(() => {
-    const initializeTelegramUser = () => {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-        const { id } = window.Telegram.WebApp.initDataUnsafe.user;
-        setTelegramUserId(id.toString()); // Save Telegram user ID as a string
-      } else {
-        console.error("Failed to fetch Telegram user ID. Ensure Telegram Web App is initialized properly.");
-      }
-    };
+  //useEffect(() => {
+  //  const initializeTelegramUser = () => {
+  //    if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+  //      const { id } = window.Telegram.WebApp.initDataUnsafe.user;
+  //      setTelegramUserId(id.toString()); // Save Telegram user ID as a string
+  //    } else {
+  //      console.error("Failed to fetch Telegram user ID. Ensure Telegram Web App is initialized properly.");
+  //    }
+  //  };
 
-    initializeTelegramUser();
-  }, []);
+  //  initializeTelegramUser();
+  //}, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -159,7 +159,7 @@ function MainComponent() {
     
     
     initializeTelegramUser();
-    
+
     if (telegramUserId) {
       checkUser();
     }
