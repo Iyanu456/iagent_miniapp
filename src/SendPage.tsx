@@ -98,6 +98,7 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
           <input
             type="text"
             id="recipient"
+            
             value={recipientAddress}
             onChange={(e) => setRecipientAddress(e.target.value)}
             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -110,6 +111,7 @@ const SendPage: React.FC<SendPageProps> = ({userId}) => {
           <input
             type="number"
             id="amount"
+            step="0.000000001"
             value={amount}
             onChange={(e) => {
               const value = e.target.value;
