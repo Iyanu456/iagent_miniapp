@@ -48,6 +48,8 @@ function MainComponent() {
   const [error, setError] = useState<string | null>(null);
   const [telegramUserId, setTelegramUserId] = useState<string | null>(null);
   const { sendRequest } = useAxios();
+  const [error_1, setError1] = useState<string | null>(null);
+  const [error_2, setError2] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -99,6 +101,7 @@ function MainComponent() {
         }
       } catch (err) {
         setError("An error occurred");
+        setError1(`${err}`);
         console.error(err);
       }
     };
@@ -139,6 +142,7 @@ function MainComponent() {
         setBalance(formattedBalance);
       } catch (err) {
         console.error(err);
+        setError2(`${err}`);
         setError("Failed to fetch balances");
       }
     };
@@ -166,7 +170,7 @@ function MainComponent() {
       case "activity":
         return <ActivityTab />;
       case "profile":
-        return <ProfileTab telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
+        return <ProfileTab error_1={error_1} error_2={error_2} telegramUserId={telegramUserId} address={userDetails?.current_injective_address || ""} />;
       default:
         return <WalletTab />;
     }
