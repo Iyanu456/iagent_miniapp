@@ -1,51 +1,91 @@
-# React + TypeScript + Vite
+# iAgent Mini App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based mini application built for interacting with the Injective ecosystem through a clean, lightweight web interface.
 
-Currently, two official plugins are available:
+The project serves as the frontend layer for an AI-agent-powered Injective experience, combining wallet-aware blockchain tooling, modern React UI patterns, and a scalable Vite + TypeScript setup.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**iAgent Mini App** is a frontend application designed to support user interaction with Injective-based workflows. It provides the foundation for connecting users to Injective-related features through a simple, responsive, and extensible interface.
 
-- Configure the top-level `parserOptions` property like this:
+The application is built with React, TypeScript, Vite, Tailwind CSS, and Injective Labs SDK packages, making it suitable for building blockchain-enabled mini apps, wallet interactions, AI-agent interfaces, and Web3 product flows.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Features
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Modern React + TypeScript frontend
+- Vite-powered development environment
+- Injective SDK integration support
+- Wallet tooling support through Injective Labs packages
+- Ethereum/Web3 utility support with `ethers`
+- Client-side routing with React Router
+- API request handling with Axios
+- Responsive UI foundation with Tailwind CSS
+- Icon system powered by Lucide React
+- Node polyfill support for browser-based blockchain tooling
+- Scalable structure for AI-agent and Web3 workflows
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
-# iagent_miniapp
+---
+
+## Tech Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Lucide React
+
+### Blockchain / Web3
+
+- `@injectivelabs/sdk-ts`
+- `@injectivelabs/wallet-ts`
+- `@injectivelabs/networks`
+- `@injectivelabs/utils`
+- `@injectivelabs/ts-types`
+- `ethers`
+- `bech32`
+- `buffer`
+
+### Tooling
+
+- Axios
+- ESLint
+- PostCSS
+- Autoprefixer
+- Vite Node Polyfills
+
+---
+
+## Project Purpose
+
+This mini app is part of an exploration into AI agents and Injective-based product experiences.
+
+It is designed to act as a user-facing interface where users can eventually interact with blockchain tools, AI-powered actions, wallet flows, and Injective ecosystem features from a simple frontend application.
+
+Possible use cases include:
+
+- AI-assisted Injective workflows
+- Wallet-connected mini app experiences
+- Blockchain transaction interfaces
+- Web3 dashboards
+- Telegram mini app extensions
+- Injective ecosystem assistant interfaces
+- Frontend layer for AI-agent backend services
+
+---
+
+## Getting Started
+
+Follow the steps below to run the project locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Iyanu456/iagent_miniapp.git
+cd iagent_miniapp
